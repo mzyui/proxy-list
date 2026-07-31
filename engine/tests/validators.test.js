@@ -120,3 +120,22 @@ describe('buildProxy', () => {
     expect(buildProxy({ ip: '1.2.3.4', port: 80, type: 'http' }).source).toBe('unknown');
   });
 });
+
+describe('buildProxy responseTimeMs', () => {
+  const base = { ip: '1.2.3.4', port: 8080, type: 'http' };
+
+  test('defaults to null when the source reports nothing', () => {
+    expect(buildProxy(base).response_time_ms).toBeNull();
+  });
+
+  test('accepts and rounds a plausible latency', () => {
+    expect(buildProxy({ ...base, responseTimeMs: 1234.7 }).response_time_ms).toBe(1235);
+  });
+
+  test('rejects negative, absurd and non-numeric latencies', () => {
+    expect(buildProxy({ ...base, responseTimeMs: -5 }).response_time_ms).toBeNull();
+    expect(buildProxy({ ...base, responseTimeMs: 999999999 }).response_time_ms).toBeNull();
+    expect(buildProxy({ ...base, responseTimeMs: 'fast' }).response_time_ms).toBeNull();
+    expect(buildProxy({ ...base, responseTimeMs: NaN }).response_time_ms).toBeNull();
+  });
+});

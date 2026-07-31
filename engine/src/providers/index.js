@@ -19,6 +19,7 @@ for (const mod of [
   require('./proxylist-org'),
   require('./my-proxy'),
   require('./spysone'),
+  require('./geonode'),
 ]) {
   registry[mod.name] = mod;
 }

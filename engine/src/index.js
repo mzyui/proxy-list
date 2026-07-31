@@ -7,6 +7,7 @@
 'use strict';
 
 const logger = require('./utils/logger');
+const { formatCount, formatDuration, table } = require('./utils/format');
 const { loadSettings, loadProviders } = require('./config');
 const { scrapeAll } = require('./core/scraper');
 const { deduplicate } = require('./core/deduplicator');
@@ -29,10 +30,25 @@ async function run() {
   });
 
   const { proxies: scraped, results } = await scrapeAll(providers, settings);
-  logger.info('scrape complete', { scraped: scraped.length });
+  logger.info('scrape complete', {
+    scraped: scraped.length,
+    providers: results.length,
+    ok: results.filter((r) => r.ok).length,
+  });
 
   const unique = deduplicate(scraped);
   logger.info('deduplicated', { unique: unique.length, removed: scraped.length - unique.length });
+
+  // Per-source contribution: how many raw proxies each source supplied, and how
+  // many survived deduplication (overlap between sources collapses here).
+  const srcRaw = {};
+  for (const p of scraped) srcRaw[p.source] = (srcRaw[p.source] || 0) + 1;
+  const srcUnique = {};
+  for (const p of unique) srcUnique[p.source] = (srcUnique[p.source] || 0) + 1;
+  const srcRows = Object.keys(srcRaw)
+    .sort((a, b) => (srcUnique[b] || 0) - (srcUnique[a] || 0))
+    .map((s) => [s, formatCount(srcRaw[s]), formatCount(srcUnique[s] || 0)]);
+  logger.info('source breakdown (raw → unique):\n' + table(['source', 'raw', 'unique'], srcRows));
 
   let final = unique;
   if (settings.validation.enabled) {
@@ -71,7 +87,10 @@ async function run() {
   };
 
   const written = await writeOutputs({ proxies: final, settings, stats });
-  logger.info('outputs written', { files: written.length });
+  logger.info('outputs written', {
+    files: written.length,
+    formats: ['txt', 'json', 'csv', 'by-country', 'by-anonymity'],
+  });
 
   const threshold = settings.validation.healthThreshold;
   if (settings.validation.enabled && threshold > 0 && final.length < threshold) {
@@ -84,7 +103,18 @@ async function run() {
   logger.info('run complete', {
     total: final.length,
     durationMs: stats.duration_ms,
+    duration: formatDuration(stats.duration_ms),
   });
+
+  const typeRows = Object.entries(stats.by_type)
+    .sort((a, b) => b[1] - a[1])
+    .map(([t, n]) => [t, formatCount(n)]);
+  logger.info('final proxy counts by type:\n' + table(['type', 'count'], typeRows));
+  logger.info(
+    `${formatCount(stats.unique_total)} unique proxies · ` +
+      `${stats.sources_ok}/${stats.sources_checked} sources healthy · ` +
+      `wrote ${written.length} files in ${formatDuration(stats.duration_ms)}`
+  );
   return stats;
 }
 

@@ -12,7 +12,7 @@
 [![commit activity](https://img.shields.io/github/commit-activity/m/mzyui/proxy-list)](https://github.com/mzyui/proxy-list/commits/main)
 [![license](https://img.shields.io/github/license/mzyui/proxy-list)](LICENSE)
 
-Free HTTP / SOCKS4 / SOCKS5 proxies, aggregated from 9 public sources
+Free HTTP / SOCKS4 / SOCKS5 proxies, aggregated from 10 public sources
 and refreshed every 3 hours.
 
 </div>
@@ -23,13 +23,13 @@ and refreshed every 3 hours.
 
 | Metric | Value |
 | --- | --- |
-| Total proxies | **13779** |
-| HTTP / HTTPS | 6885 |
-| SOCKS4 | 4291 |
-| SOCKS5 | 2603 |
-| Sources checked | 9 (9 healthy) |
+| Total proxies | **42457** |
+| HTTP / HTTPS | 30422 |
+| SOCKS4 | 6676 |
+| SOCKS5 | 5359 |
+| Sources checked | 10 (10 healthy) |
 | Live-checked | no — the lists are aggregated and deduplicated, but not connection-tested |
-| Last updated | 2026-07-31T08:11:21.961Z |
+| Last updated | 2026-07-31T08:45:36.718Z |
 
 ## Download
 

@@ -101,6 +101,14 @@
       "timeout": 20000,
       "retries": 2,
       "rateLimit": { "minIntervalMs": 3000 }
+    },
+    {
+      "name": "geonode",
+      "enabled": true,
+      "type": "api",
+      "timeout": 20000,
+      "retries": 3,
+      "rateLimit": { "minIntervalMs": 1500 }
     }
   ]
 }

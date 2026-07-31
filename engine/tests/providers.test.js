@@ -100,3 +100,60 @@ describe('github-raw provider', () => {
     expect(proxies.every((p) => p.source === 'github-raw')).toBe(true);
   });
 });
+
+describe('geonode provider', () => {
+  const provider = require('../src/providers/geonode');
+
+  const page = (rows) => JSON.stringify({ data: rows });
+
+  test('expands multi-protocol rows and keeps metadata', async () => {
+    http.get
+      .mockResolvedValueOnce(
+        page([
+          {
+            ip: '1.2.3.4',
+            port: '8080',
+            protocols: ['http', 'socks5'],
+            country: 'US',
+            anonymityLevel: 'elite',
+            latency: 1234.7,
+          },
+        ])
+      )
+      .mockResolvedValue(page([]));
+
+    const proxies = await provider.fetch(baseConfig, ctx);
+
+    expect(proxies).toHaveLength(2);
+    expect(proxies[0]).toMatchObject({
+      ip: '1.2.3.4',
+      port: 8080,
+      type: 'http',
+      country: 'US',
+      anonymity: 'elite',
+      response_time_ms: 1235,
+      source: 'geonode',
+    });
+    expect(proxies[1].type).toBe('socks5');
+  });
+
+  test('stops paging on the first empty page', async () => {
+    http.get.mockResolvedValueOnce(page([])).mockResolvedValue(page([{ ip: '9.9.9.9', port: 1, protocols: ['http'] }]));
+    const proxies = await provider.fetch(baseConfig, ctx);
+    expect(proxies).toHaveLength(0);
+    expect(http.get).toHaveBeenCalledTimes(1);
+  });
+
+  test('survives invalid JSON without throwing', async () => {
+    http.get.mockResolvedValue('<html>rate limited</html>');
+    const proxies = await provider.fetch(baseConfig, ctx);
+    expect(proxies).toEqual([]);
+    expect(logger.warn).toHaveBeenCalled();
+  });
+
+  test('skips rows with no protocols', async () => {
+    http.get.mockResolvedValueOnce(page([{ ip: '1.2.3.4', port: 80, protocols: [] }])).mockResolvedValue(page([]));
+    const proxies = await provider.fetch(baseConfig, ctx);
+    expect(proxies).toEqual([]);
+  });
+});

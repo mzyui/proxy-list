@@ -116,9 +116,12 @@ function normalizeCountry(raw) {
  * @param {string} [input.country] Country code/name.
  * @param {string} [input.anonymity] Anonymity label.
  * @param {string} [input.source] Provider name.
+ * @param {number} [input.responseTimeMs] Latency reported by the source, if any.
+ *   Only accepted as a hint from providers that measure it themselves; live
+ *   validation overwrites this with its own measurement.
  * @returns {import('../core/types').Proxy|null} Normalized proxy or null.
  */
-function buildProxy({ ip, port, type, country, anonymity, source }) {
+function buildProxy({ ip, port, type, country, anonymity, source, responseTimeMs }) {
   const cleanIp = sanitizeString(ip, 45).replace(/[^0-9.]/g, '');
   if (!isValidIp(cleanIp)) return null;
 
@@ -128,6 +131,11 @@ function buildProxy({ ip, port, type, country, anonymity, source }) {
   const cleanType = normalizeType(type);
   if (!cleanType || !isValidType(cleanType)) return null;
 
+  const latency =
+    Number.isFinite(responseTimeMs) && responseTimeMs >= 0 && responseTimeMs <= 600000
+      ? Math.round(responseTimeMs)
+      : null;
+
   return {
     ip: cleanIp,
     port: cleanPort,
@@ -136,7 +144,7 @@ function buildProxy({ ip, port, type, country, anonymity, source }) {
     anonymity: normalizeAnonymity(anonymity),
     source: sanitizeString(source, 40) || 'unknown',
     last_checked: null,
-    response_time_ms: null,
+    response_time_ms: latency,
   };
 }
 
