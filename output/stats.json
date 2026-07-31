@@ -1,79 +1,79 @@
 {
-  "last_updated": "2026-07-31T07:50:07.335Z",
-  "duration_ms": 33058,
+  "last_updated": "2026-07-31T08:11:21.961Z",
+  "duration_ms": 16550,
   "sources_checked": 9,
   "sources_ok": 9,
-  "scraped_total": 25798,
-  "unique_total": 15144,
+  "scraped_total": 24491,
+  "unique_total": 13779,
   "working_total": null,
   "validated": false,
   "by_type": {
-    "http": 8128,
-    "socks4": 4264,
-    "socks5": 2752
+    "http": 6885,
+    "socks4": 4291,
+    "socks5": 2603
   },
   "providers": [
     {
       "name": "github-raw",
       "ok": true,
-      "count": 9315,
-      "durationMs": 2536,
+      "count": 9317,
+      "durationMs": 2519,
       "error": null
     },
     {
       "name": "proxyscrape",
       "ok": true,
-      "count": 1602,
-      "durationMs": 2973,
+      "count": 1626,
+      "durationMs": 2079,
       "error": null
     },
     {
       "name": "openproxylist",
       "ok": true,
-      "count": 12567,
-      "durationMs": 2437,
+      "count": 12434,
+      "durationMs": 2158,
       "error": null
     },
     {
       "name": "proxynova",
       "ok": true,
-      "count": 11,
-      "durationMs": 4200,
+      "count": 6,
+      "durationMs": 988,
       "error": null
     },
     {
       "name": "free-proxy-list",
       "ok": true,
       "count": 900,
-      "durationMs": 12895,
+      "durationMs": 1118,
       "error": null
     },
     {
       "name": "freeproxy-world",
       "ok": true,
-      "count": 750,
-      "durationMs": 25072,
+      "count": 0,
+      "durationMs": 288,
       "error": null
     },
     {
       "name": "proxylist-org",
       "ok": true,
-      "count": 140,
-      "durationMs": 14772,
+      "count": 138,
+      "durationMs": 13595,
       "error": null
     },
     {
       "name": "my-proxy",
       "ok": true,
       "count": 70,
-      "durationMs": 3779,
+      "durationMs": 171,
       "error": null
     },
     {
       "name": "spysone",
       "ok": true,
-      "count": 443,
-      "durationMs": 28755,
+      "count": 0,
+      "durationMs": 15069,
       "error": null
     }
   ]

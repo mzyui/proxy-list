@@ -23,13 +23,13 @@ and refreshed every 3 hours.
 
 | Metric | Value |
 | --- | --- |
-| Total proxies | **15144** |
-| HTTP / HTTPS | 8128 |
-| SOCKS4 | 4264 |
-| SOCKS5 | 2752 |
+| Total proxies | **13779** |
+| HTTP / HTTPS | 6885 |
+| SOCKS4 | 4291 |
+| SOCKS5 | 2603 |
 | Sources checked | 9 (9 healthy) |
 | Live-checked | no — the lists are aggregated and deduplicated, but not connection-tested |
-| Last updated | 2026-07-31T07:50:07.335Z |
+| Last updated | 2026-07-31T08:11:21.961Z |
 
 ## Download
 
