@@ -88,7 +88,7 @@ jobs:
 
       - name: Commit and push
         if: github.event_name == 'schedule' || inputs.commit
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: update proxy lists"
           file_pattern: "*.txt output/*.json output/*.csv output/by-country/*.txt output/by-anonymity/*.txt README.md"
