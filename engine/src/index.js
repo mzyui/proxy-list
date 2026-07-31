@@ -50,6 +50,10 @@ async function run() {
     .map((s) => [s, formatCount(srcRaw[s]), formatCount(srcUnique[s] || 0)]);
   logger.info('source breakdown (raw → unique):\n' + table(['source', 'raw', 'unique'], srcRows));
 
+  // Attach the per-source unique count to each provider report so stats.json
+  // and the generated README can show the same breakdown.
+  for (const r of results) r.unique = srcUnique[r.name] || 0;
+
   let final = unique;
   if (settings.validation.enabled) {
     const candidates =

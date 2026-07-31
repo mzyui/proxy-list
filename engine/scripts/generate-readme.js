@@ -55,6 +55,24 @@ const validated = stats.validated
   ? 'yes — every listed proxy answered a live HTTP request'
   : 'no — the lists are aggregated and deduplicated, but not connection-tested';
 const totalLabel = stats.validated ? 'Working proxies' : 'Total proxies';
+const nameW = 16;
+const numW = 8;
+const pad = (s, w) => String(s).padEnd(w);
+const padN = (n, w) => String(n).padStart(w);
+
+const providers = Array.isArray(stats.providers) ? stats.providers : [];
+const sourceTable = providers.length
+  ? [
+      '```',
+      pad('source', nameW) + pad('raw', numW) + pad('unique', numW),
+      pad('-'.repeat(nameW - 1), nameW) + pad('-'.repeat(numW - 1), numW) + pad('-'.repeat(numW - 1), numW),
+      ...providers
+        .slice()
+        .sort((a, b) => (b.unique || 0) - (a.unique || 0))
+        .map((p) => pad(p.name, nameW) + padN(p.count ?? 0, numW) + padN(p.unique ?? 0, numW)),
+      '```',
+    ].join('\n')
+  : '';
 
 const readme = `<div align="center">
 
@@ -88,6 +106,10 @@ and refreshed every 3 hours.
 | Sources checked | ${stats.sources_checked ?? 'n/a'} (${stats.sources_ok ?? 'n/a'} healthy) |
 | Live-checked | ${validated} |
 | Last updated | ${updated} |
+
+### Per-source contribution
+
+${sourceTable}
 
 ## Download
 
