@@ -1,0 +1,110 @@
+name: Proxy Updater
+
+on:
+  schedule:
+    - cron: "0 */3 * * *"
+  workflow_dispatch:
+    inputs:
+      validate:
+        description: "Run live proxy validation (slow; drops most entries)"
+        type: boolean
+        default: false
+      providers:
+        description: "Comma-separated provider names to run (blank = all enabled)"
+        type: string
+        default: ""
+      max_proxies:
+        description: "Cap the number of proxies validated (0 = no cap)"
+        type: string
+        default: "0"
+      commit:
+        description: "Commit and push the results"
+        type: boolean
+        default: true
+      log_level:
+        description: "Logger verbosity"
+        type: choice
+        options: [info, debug, warn, error]
+        default: info
+
+permissions:
+  contents: write
+
+concurrency:
+  group: proxy-updater
+  cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: engine
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: engine/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --omit=dev
+
+      - name: Scrape proxies
+        env:
+          VALIDATE: ${{ inputs.validate || 'false' }}
+          PROVIDERS: ${{ inputs.providers || '' }}
+          MAX_PROXIES: ${{ inputs.max_proxies || '0' }}
+          VALIDATION_CONCURRENCY: "200"
+          VALIDATION_TIMEOUT_MS: "8000"
+          HEALTH_THRESHOLD: "0"
+          LOG_LEVEL: ${{ inputs.log_level || 'info' }}
+        run: npm run scrape
+
+      - name: Generate README
+        run: npm run readme
+
+      - name: Summary
+        run: |
+          {
+            echo "### Proxy update"
+            echo
+            echo "| list | lines |"
+            echo "| --- | ---: |"
+            for f in all http socks4 socks5; do
+              echo "| \`$f.txt\` | $(grep -c . "../$f.txt" 2>/dev/null || echo 0) |"
+            done
+            echo
+            echo "- validation: \`${{ inputs.validate || 'false' }}\`"
+            echo "- providers: \`${{ inputs.providers || 'all enabled' }}\`"
+            echo "- commit: \`${{ github.event_name == 'schedule' && 'true' || inputs.commit }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit and push
+        if: github.event_name == 'schedule' || inputs.commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update proxy lists"
+          file_pattern: "*.txt output/*.json output/*.csv output/by-country/*.txt output/by-anonymity/*.txt README.md"
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Notify on failure
+        if: failure()
+        env:
+          WEBHOOK: ${{ secrets.FAILURE_WEBHOOK_URL }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$WEBHOOK" ]; then
+            echo "No FAILURE_WEBHOOK_URL secret configured; skipping notification."
+            exit 0
+          fi
+          curl -sS -X POST -H 'Content-Type: application/json' \
+            --data "$(printf '{"content":"proxy-list update failed: %s"}' "$RUN_URL")" \
+            "$WEBHOOK" || true

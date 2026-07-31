@@ -1,0 +1,10 @@
+# Dependencies and test artifacts (any depth, incl. engine/)
+node_modules/
+coverage/
+
+# Runtime logs — the published data itself is committed on purpose
+output/logs/
+*.log
+
+.env
+.DS_Store

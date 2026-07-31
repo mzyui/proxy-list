@@ -1,0 +1,42 @@
+{
+  "name": "proxy-list",
+  "version": "2.0.0",
+  "description": "Aggregated, validated free proxy lists (HTTP/SOCKS4/SOCKS5) published every few hours.",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "scrape": "node src/index.js",
+    "scrape:validate": "VALIDATE=true node src/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "check:security": "node scripts/check-no-eval.js",
+    "check:smoke": "node scripts/smoke-check.js",
+    "readme": "node scripts/generate-readme.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mzyui/proxy-list.git"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "csv-writer": "^1.6.0",
+    "https-proxy-agent": "^7.0.0",
+    "joi": "^17.11.0",
+    "p-limit": "^3.1.0",
+    "socks-proxy-agent": "^8.0.0",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "globals": "^15.15.0",
+    "jest": "^29.7.0"
+  }
+}

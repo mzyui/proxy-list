@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - "**/*.txt"
+      - "README.md"
+      - "output/**"
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      node_version:
+        description: "Node version to test (all = full matrix)"
+        type: choice
+        options: [all, 20.x, 22.x]
+        default: all
+      live_provider_check:
+        description: "Also hit one real provider over the network"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: engine
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Manual runs may pin a single version; everything else uses the matrix.
+        node-version: >-
+          ${{ fromJSON(
+            (github.event_name == 'workflow_dispatch' && inputs.node_version != 'all')
+            && format('["{0}"]', inputs.node_version)
+            || '["20.x","22.x"]'
+          ) }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          cache-dependency-path: engine/package-lock.json
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests with coverage
+        run: npm run test:coverage
+
+      - name: Smoke check (config + providers load, no network)
+        run: npm run check:smoke
+
+      - name: Assert no eval() in source
+        run: npm run check:security
+
+      - name: Live provider check (manual runs only)
+        if: inputs.live_provider_check
+        env:
+          PROVIDERS: proxyscrape
+          OUTPUT_DIR: ${{ runner.temp }}/ci-out
+          VALIDATE: "false"
+          LOG_LEVEL: info
+        run: |
+          npm run scrape
+          lines=$(grep -c . "$OUTPUT_DIR/all.txt" || echo 0)
+          echo "proxyscrape returned $lines proxies"
+          test "$lines" -gt 0

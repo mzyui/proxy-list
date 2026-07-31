@@ -1,0 +1,80 @@
+{
+  "last_updated": "2026-07-31T07:50:07.335Z",
+  "duration_ms": 33058,
+  "sources_checked": 9,
+  "sources_ok": 9,
+  "scraped_total": 25798,
+  "unique_total": 15144,
+  "working_total": null,
+  "validated": false,
+  "by_type": {
+    "http": 8128,
+    "socks4": 4264,
+    "socks5": 2752
+  },
+  "providers": [
+    {
+      "name": "github-raw",
+      "ok": true,
+      "count": 9315,
+      "durationMs": 2536,
+      "error": null
+    },
+    {
+      "name": "proxyscrape",
+      "ok": true,
+      "count": 1602,
+      "durationMs": 2973,
+      "error": null
+    },
+    {
+      "name": "openproxylist",
+      "ok": true,
+      "count": 12567,
+      "durationMs": 2437,
+      "error": null
+    },
+    {
+      "name": "proxynova",
+      "ok": true,
+      "count": 11,
+      "durationMs": 4200,
+      "error": null
+    },
+    {
+      "name": "free-proxy-list",
+      "ok": true,
+      "count": 900,
+      "durationMs": 12895,
+      "error": null
+    },
+    {
+      "name": "freeproxy-world",
+      "ok": true,
+      "count": 750,
+      "durationMs": 25072,
+      "error": null
+    },
+    {
+      "name": "proxylist-org",
+      "ok": true,
+      "count": 140,
+      "durationMs": 14772,
+      "error": null
+    },
+    {
+      "name": "my-proxy",
+      "ok": true,
+      "count": 70,
+      "durationMs": 3779,
+      "error": null
+    },
+    {
+      "name": "spysone",
+      "ok": true,
+      "count": 443,
+      "durationMs": 28755,
+      "error": null
+    }
+  ]
+}

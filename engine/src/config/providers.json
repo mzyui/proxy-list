@@ -1,0 +1,106 @@
+{
+  "providers": [
+    {
+      "name": "github-raw",
+      "enabled": true,
+      "type": "plaintext",
+      "timeout": 20000,
+      "retries": 3,
+      "rateLimit": { "minIntervalMs": 250 }
+    },
+    {
+      "name": "proxyscrape",
+      "enabled": true,
+      "type": "api",
+      "timeout": 20000,
+      "retries": 3,
+      "rateLimit": { "minIntervalMs": 1000 },
+      "endpoints": {
+        "http": "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=10000&country=all&ssl=all&anonymity=all",
+        "socks4": "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=socks4&timeout=10000&country=all",
+        "socks5": "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=socks5&timeout=10000&country=all"
+      }
+    },
+    {
+      "name": "openproxylist",
+      "enabled": true,
+      "type": "plaintext",
+      "timeout": 15000,
+      "retries": 2,
+      "rateLimit": { "minIntervalMs": 1000 },
+      "endpoints": {
+        "http": "https://api.openproxylist.xyz/http.txt",
+        "socks4": "https://api.openproxylist.xyz/socks4.txt",
+        "socks5": "https://api.openproxylist.xyz/socks5.txt"
+      }
+    },
+    {
+      "name": "proxyscan",
+      "enabled": false,
+      "_comment": "Disabled 2026-07: www.proxyscan.io/download returns HTTP 404 for all protocols.",
+      "type": "web_scrape",
+      "baseUrl": "https://www.proxyscan.io",
+      "timeout": 15000,
+      "retries": 2,
+      "rateLimit": { "minIntervalMs": 1500 }
+    },
+    {
+      "name": "proxynova",
+      "enabled": true,
+      "type": "api",
+      "timeout": 15000,
+      "retries": 2,
+      "rateLimit": { "minIntervalMs": 1000 },
+      "endpoints": { "list": "https://api.proxynova.com/proxylist" }
+    },
+    {
+      "name": "free-proxy-list",
+      "enabled": true,
+      "type": "web_scrape",
+      "timeout": 15000,
+      "retries": 2,
+      "rateLimit": { "minIntervalMs": 1500 },
+      "sites": [
+        { "url": "https://free-proxy-list.net/", "defaultType": "http" },
+        { "url": "https://www.sslproxies.org/", "defaultType": "https" },
+        { "url": "https://us-proxy.org/", "defaultType": "http" },
+        { "url": "https://www.socks-proxy.net/", "defaultType": "socks4" }
+      ],
+      "selectors": { "table": "table.table" }
+    },
+    {
+      "name": "freeproxy-world",
+      "enabled": true,
+      "type": "web_scrape",
+      "timeout": 15000,
+      "retries": 2,
+      "maxPages": 15,
+      "rateLimit": { "minIntervalMs": 1500 }
+    },
+    {
+      "name": "proxylist-org",
+      "enabled": true,
+      "type": "web_scrape",
+      "timeout": 15000,
+      "retries": 2,
+      "maxPages": 10,
+      "rateLimit": { "minIntervalMs": 1500 }
+    },
+    {
+      "name": "my-proxy",
+      "enabled": true,
+      "type": "web_scrape",
+      "timeout": 15000,
+      "retries": 2,
+      "rateLimit": { "minIntervalMs": 1500 }
+    },
+    {
+      "name": "spysone",
+      "enabled": true,
+      "type": "web_scrape",
+      "timeout": 20000,
+      "retries": 2,
+      "rateLimit": { "minIntervalMs": 3000 }
+    }
+  ]
+}

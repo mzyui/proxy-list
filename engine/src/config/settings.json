@@ -1,0 +1,26 @@
+{
+  "outputDir": "output",
+  "publishToRoot": true,
+  "fetch": {
+    "maxConcurrentProviders": 5,
+    "defaultTimeout": 10000,
+    "defaultRetries": 3,
+    "defaultRateLimitMs": 1000
+  },
+  "validation": {
+    "enabled": false,
+    "concurrency": 50,
+    "timeoutMs": 8000,
+    "testUrl": "http://httpbin.org/ip",
+    "maxProxies": 0,
+    "healthThreshold": 100
+  },
+  "output": {
+    "formats": ["json", "csv"],
+    "rootFormats": ["txt"],
+    "prettyJson": false,
+    "byCountry": true,
+    "byAnonymity": true,
+    "maxCountryFiles": 30
+  }
+}
