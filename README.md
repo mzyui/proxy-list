@@ -23,27 +23,27 @@ and refreshed every 3 hours.
 
 | Metric | Value |
 | --- | --- |
-| Total proxies | **93375** |
-| HTTP / HTTPS | 49988 |
-| SOCKS4 | 21601 |
-| SOCKS5 | 21786 |
+| Total proxies | **93846** |
+| HTTP / HTTPS | 50146 |
+| SOCKS4 | 21761 |
+| SOCKS5 | 21939 |
 | Sources checked | 10 (10 healthy) |
 | Live-checked | no — the lists are aggregated and deduplicated, but not connection-tested |
-| Last updated | 2026-08-08T09:43:36.593Z |
+| Last updated | 2026-08-08T12:59:44.411Z |
 
 ### Per-source contribution
 
 ```
 source          raw     unique  
 --------------- ------- ------- 
-github-raw        109927   92888
-geonode             1500     306
-free-proxy-list      900     110
+github-raw        111474   93338
+geonode             1500     298
+free-proxy-list      900     119
 proxylist-org        140      31
-proxyscrape         1773      26
-openproxylist      12706       6
-my-proxy              70       4
-proxynova             10       4
+proxyscrape         1860      28
+openproxylist      13915      20
+my-proxy              70       8
+proxynova             12       4
 freeproxy-world        0       0
 spysone                0       0
 ```
