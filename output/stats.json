@@ -1,63 +1,63 @@
 {
-  "last_updated": "2026-08-21T12:57:58.975Z",
-  "duration_ms": 16471,
+  "last_updated": "2026-08-21T15:38:48.113Z",
+  "duration_ms": 28038,
   "sources_checked": 10,
   "sources_ok": 10,
-  "scraped_total": 124036,
-  "unique_total": 90499,
+  "scraped_total": 124817,
+  "unique_total": 90753,
   "working_total": null,
   "validated": false,
   "by_type": {
-    "http": 59217,
-    "socks4": 15558,
-    "socks5": 15724
+    "http": 59275,
+    "socks4": 15573,
+    "socks5": 15905
   },
   "providers": [
     {
       "name": "github-raw",
       "ok": true,
-      "count": 106947,
-      "durationMs": 7517,
+      "count": 107140,
+      "durationMs": 7562,
       "error": null,
-      "unique": 90049
+      "unique": 90317
     },
     {
       "name": "openproxylist",
       "ok": true,
-      "count": 12985,
-      "durationMs": 2134,
+      "count": 14039,
+      "durationMs": 2128,
       "error": null,
-      "unique": 18
+      "unique": 7
     },
     {
       "name": "geonode",
       "ok": true,
       "count": 1500,
-      "durationMs": 3156,
+      "durationMs": 3500,
       "error": null,
-      "unique": 259
+      "unique": 275
     },
     {
       "name": "proxyscrape",
       "ok": true,
-      "count": 1479,
-      "durationMs": 2028,
+      "count": 1021,
+      "durationMs": 2045,
       "error": null,
-      "unique": 21
+      "unique": 10
     },
     {
       "name": "free-proxy-list",
       "ok": true,
       "count": 900,
-      "durationMs": 1053,
+      "durationMs": 1733,
       "error": null,
-      "unique": 103
+      "unique": 102
     },
     {
       "name": "proxylist-org",
       "ok": true,
-      "count": 140,
-      "durationMs": 13573,
+      "count": 139,
+      "durationMs": 26709,
       "error": null,
       "unique": 39
     },
@@ -65,23 +65,23 @@
       "name": "my-proxy",
       "ok": true,
       "count": 70,
-      "durationMs": 157,
+      "durationMs": 247,
       "error": null,
-      "unique": 6
+      "unique": 2
     },
     {
       "name": "proxynova",
       "ok": true,
-      "count": 15,
-      "durationMs": 863,
+      "count": 8,
+      "durationMs": 839,
       "error": null,
-      "unique": 4
+      "unique": 1
     },
     {
       "name": "freeproxy-world",
       "ok": true,
       "count": 0,
-      "durationMs": 92,
+      "durationMs": 343,
       "error": null,
       "unique": 0
     },
@@ -89,7 +89,7 @@
       "name": "spysone",
       "ok": true,
       "count": 0,
-      "durationMs": 15062,
+      "durationMs": 15108,
       "error": null,
       "unique": 0
     }
