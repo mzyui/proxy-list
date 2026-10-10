@@ -109,6 +109,15 @@
       "timeout": 20000,
       "retries": 3,
       "rateLimit": { "minIntervalMs": 1500 }
+    },
+    {
+      "name": "rcloak",
+      "enabled": true,
+      "type": "plaintext",
+      "timeout": 15000,
+      "retries": 2,
+      "rateLimit": { "minIntervalMs": 1000 },
+      "endpoints": { "all": "https://rcloak.com/api/proxies/raw?protocol=all" }
     }
   ]
 }
